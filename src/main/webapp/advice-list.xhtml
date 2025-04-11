@@ -2,47 +2,84 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://java.sun.com/jsf/html"
-
 	  xmlns:f="http://xmlns.jcp.org/jsf/core"
 	  xmlns:b="http://bootsfaces.net/ui">
+
 <f:metadata>
-	<f:viewAction action="#{adviceListBean.init}"/>
+	<f:viewAction action="#{adviceListBean.init}" />
 </f:metadata>
+
 <h:head>
-	<title>Hype Advice - Cadastro</title>
-	<meta name="author" content="The Author"></meta>
+	<title>Hype Advice - Consulta</title>
+	<meta name="author" content="Leonardo Oliveira" />
 </h:head>
+
 <h:body style="padding: 60px;">
+	<!-- Navbar -->
 	<b:navBar brand="Hype Advice" brandHref="#" fixed="top" inverse="true">
 		<b:navbarLinks>
-			<b:navLink value="Cadastro" href="http://localhost:8080/advice-crud.xhtml"></b:navLink>
-			<b:navLink value="Pesquisa" href="http://localhost:8080/advice-list.xhtml"></b:navLink>
+			<b:navLink value="Cadastro" href="http://localhost:8080/advice-crud.xhtml" />
+			<b:navLink value="Pesquisa" href="http://localhost:8080/advice-list.xhtml" />
 		</b:navbarLinks>
 	</b:navBar>
+
 	<b:container>
+
+		<!-- Mensagens -->
+		<b:messages globalOnly="true" showSummary="true" redisplay="false" id="mensagensGlobais" />
+
+		<!-- Pesquisa por Descrição -->
 		<b:jumbotron>
-			<b:messages globalOnly="true" showSummary="true" redisplay="false" id="mensagensGlobais"/>
 			<h:form id="form-advice">
 				<b:form>
-					<b:inputTextarea label="Pesquisar Conselho por Descrição" placeholder="Descrição..." value="#{adviceListBean.advice.descricao}" />
+					<b:inputTextarea label="Pesquisar Conselho por Descrição"
+									 placeholder="Digite parte do conselho..."
+									 value="#{adviceListBean.advice.descricao}" />
 					<b:message for="@previous" />
-
-					<b:commandButton actionListener="#{adviceListBean.buscar}" look="info"  update="form-advice-list mensagensGlobais" value="Buscar" >
-					</b:commandButton>
+					<b:commandButton actionListener="#{adviceListBean.buscar}"
+									 look="info"
+									 update="form-advice-list mensagensGlobais"
+									 value="Buscar" />
 				</b:form>
 			</h:form>
 		</b:jumbotron>
+
+		<!-- Pesquisa por ID -->
+		<b:jumbotron>
+			<h:form id="form-advice-id">
+				<b:form>
+					<b:inputText label="Pesquisar Conselho por ID"
+								 placeholder="Ex: 117"
+								 value="#{adviceListBean.idBusca}"
+								 type="number"
+								 min="1"
+								 required="true"
+								 requiredMessage="Informe um ID válido." />
+					<b:message for="@previous" />
+					<b:commandButton actionListener="#{adviceListBean.buscarPorId}"
+									 look="primary"
+									 value="Buscar por ID"
+									 update="form-advice-id form-advice-list mensagensGlobais" />
+				</b:form>
+			</h:form>
+		</b:jumbotron>
+
+		<!-- Resultado em Tabela -->
 		<b:jumbotron>
 			<h:form id="form-advice-list">
 				<h4 style="text-align:center">Conselhos Localizados</h4>
-				<b:dataTable value="#{adviceListBean.adviceListVO.slips}"
-							 var="advice">
-					<b:dataTableColumn style="width:10%" value="#{advice.id}" />
-					<b:dataTableColumn value="#{advice.advice}" />
-					<b:dataTableColumn value="#{advice.date}" />
+				<b:dataTable value="#{adviceListBean.adviceListVO.slips}" var="slip">
+					<b:dataTableColumn label="ID" value="#{slip.id}" style="width:10%" />
+					<b:dataTableColumn label="Conselho" value="#{slip.advice}" />
+					<b:dataTableColumn label="Data">
+						<h:outputText value="#{slip.date}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</b:dataTableColumn>
 				</b:dataTable>
 			</h:form>
 		</b:jumbotron>
+
 	</b:container>
 </h:body>
 </html>
