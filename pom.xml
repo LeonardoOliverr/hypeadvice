@@ -131,7 +131,11 @@
 			<version>1.4.9</version>
 		</dependency>
 
-
+		<!-- Para Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 
 	</dependencies>
 

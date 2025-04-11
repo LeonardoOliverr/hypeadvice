@@ -32,10 +32,15 @@ public class AdviceBean extends Bean {
     }
 
     public void salvar() {
+        if (advice.getTipo() == null) {
+            addFaceMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Selecione o Tipo de Conselho (Gratuito ou Pago).");
+            return;
+        }
+
         adviceService.save(advice);
         advices.add(advice);
         adicionarAdvice();
-        addFaceMessage(FacesMessage.SEVERITY_INFO, "Sucesso", null);
+        addFaceMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Conselho cadastrado com sucesso!");
     }
 
     public void gerar() {
