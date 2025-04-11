@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:b="http://bootsfaces.net/ui">
+<f:metadata>
+	<f:viewAction action="#{adviceBean.init}"/>
+</f:metadata>
+<h:head>
+	<title>Hype Advice</title>
+	<meta name="author" content="The Author"></meta>
+</h:head>
+<h:body style="padding: 60px;">
+	<b:navBar brand="Hype Advice" brandHref="#" fixed="top" inverse="true">
+		<b:navbarLinks>
+			<b:navLink value="Cadastro" href="http://localhost:8080/advice-crud.xhtml"></b:navLink>
+			<b:navLink value="Pesquisa" href="http://localhost:8080/advice-list.xhtml"></b:navLink>
+		</b:navbarLinks>
+	</b:navBar>
+	<b:container>
+		<b:jumbotron>
+			<b:messages globalOnly="true" showSummary="true" redisplay="false" id="mensagensGlobais"/>
+			<h:form id="form-advice">
+				<b:form>
+					<b:inputText id="name" placeholder="Nome..." value="#{adviceBean.advice.nome}" label="Cadastrar Conselho"/>
+					<b:message for="@previous" />
+
+					<b:inputTextarea placeholder="Descrição..." value="#{adviceBean.advice.descricao}" />
+					<b:message for="@previous" />
+
+					<b:commandButton actionListener="#{adviceBean.salvar}"  update="form-advice form-advice-list mensagensGlobais" value="Salvar" />
+					<b:commandButton actionListener="#" look="info"  value="Gerar" >
+						<f:ajax onevent="click" listener="#{adviceBean.gerar}" render="form-advice"/>
+					</b:commandButton>
+				</b:form>
+			</h:form>
+		</b:jumbotron>
+		<b:jumbotron>
+			<h:form id="form-advice-list">
+				<h4 style="text-align:center">Conselhos Cadastrados</h4>
+				<b:dataTable value="#{adviceBean.advices}"
+							 var="advice">
+					<b:dataTableColumn style="width:10%" value="#{advice.id}" />
+					<b:dataTableColumn value="#{advice.nome}" />
+					<b:dataTableColumn value="#{advice.descricao}" />
+					<b:dataTableColumn style="width:20%">
+						<b:commandButton actionListener="#"  look="warning" update="form-advice form-advice-list" value="Editar" />
+						<b:commandButton actionListener="#"  look="danger" update="form-advice form-advice-list" value="Excluir" />
+					</b:dataTableColumn>
+				</b:dataTable>
+			</h:form>
+		</b:jumbotron>
+	</b:container>
+</h:body>
+</html>

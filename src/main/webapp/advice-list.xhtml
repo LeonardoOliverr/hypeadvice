@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:b="http://bootsfaces.net/ui">
+<f:metadata>
+	<f:viewAction action="#{adviceListBean.init}"/>
+</f:metadata>
+<h:head>
+	<title>Hype Advice - Cadastro</title>
+	<meta name="author" content="The Author"></meta>
+</h:head>
+<h:body style="padding: 60px;">
+	<b:navBar brand="Hype Advice" brandHref="#" fixed="top" inverse="true">
+		<b:navbarLinks>
+			<b:navLink value="Cadastro" href="http://localhost:8080/advice-crud.xhtml"></b:navLink>
+			<b:navLink value="Pesquisa" href="http://localhost:8080/advice-list.xhtml"></b:navLink>
+		</b:navbarLinks>
+	</b:navBar>
+	<b:container>
+		<b:jumbotron>
+			<b:messages globalOnly="true" showSummary="true" redisplay="false" id="mensagensGlobais"/>
+			<h:form id="form-advice">
+				<b:form>
+					<b:inputTextarea label="Pesquisar Conselho por Descrição" placeholder="Descrição..." value="#{adviceListBean.advice.descricao}" />
+					<b:message for="@previous" />
+
+					<b:commandButton actionListener="#{adviceListBean.buscar}" look="info"  update="form-advice-list mensagensGlobais" value="Buscar" >
+					</b:commandButton>
+				</b:form>
+			</h:form>
+		</b:jumbotron>
+		<b:jumbotron>
+			<h:form id="form-advice-list">
+				<h4 style="text-align:center">Conselhos Localizados</h4>
+				<b:dataTable value="#{adviceListBean.adviceListVO.slips}"
+							 var="advice">
+					<b:dataTableColumn style="width:10%" value="#{advice.id}" />
+					<b:dataTableColumn value="#{advice.advice}" />
+					<b:dataTableColumn value="#{advice.date}" />
+				</b:dataTable>
+			</h:form>
+		</b:jumbotron>
+	</b:container>
+</h:body>
+</html>
