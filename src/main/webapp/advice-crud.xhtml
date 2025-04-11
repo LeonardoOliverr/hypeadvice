@@ -22,32 +22,46 @@
 	<b:container>
 		<b:jumbotron>
 			<b:messages globalOnly="true" showSummary="true" redisplay="false" id="mensagensGlobais"/>
+
 			<h:form id="form-advice">
-				<b:form>
-					<b:inputText id="name" placeholder="Nome..." value="#{adviceBean.advice.nome}" label="Cadastrar Conselho"/>
-					<b:message for="@previous" />
+				<b:inputText id="name" placeholder="Nome..." value="#{adviceBean.advice.nome}" label="Cadastrar Conselho"/>
+				<b:message for="@previous" />
 
-					<b:inputTextarea placeholder="Descrição..." value="#{adviceBean.advice.descricao}" />
-					<b:message for="@previous" />
+				<b:inputTextarea placeholder="Nunca tome decisões com raiva ou medo..." value="#{adviceBean.advice.descricao}" label="Descrição"/>
+				<b:message for="@previous" />
 
-					<b:commandButton actionListener="#{adviceBean.salvar}"  update="form-advice form-advice-list mensagensGlobais" value="Salvar" />
-					<b:commandButton actionListener="#" look="info"  value="Gerar" >
-						<f:ajax onevent="click" listener="#{adviceBean.gerar}" render="form-advice"/>
-					</b:commandButton>
-				</b:form>
+				<b:selectOneMenu
+						value="#{adviceBean.advice.tipo}"
+						label="Tipo de Conselho"
+						id="tipoConselho"
+						required="true"
+						requiredMessage="Selecione um tipo de conselho.">
+
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					<f:selectItem itemLabel="Gratuito" itemValue="GRATUITO" />
+					<f:selectItem itemLabel="Pago" itemValue="PAGO" />
+				</b:selectOneMenu>
+				<b:message for="tipoConselho" />
+
+				<b:commandButton actionListener="#{adviceBean.salvar}" update="form-advice form-advice-list mensagensGlobais" value="Salvar" />
+
+				<b:commandButton look="info" value="Gerar">
+					<f:ajax listener="#{adviceBean.gerar}" render="form-advice" />
+				</b:commandButton>
 			</h:form>
 		</b:jumbotron>
+
 		<b:jumbotron>
 			<h:form id="form-advice-list">
 				<h4 style="text-align:center">Conselhos Cadastrados</h4>
-				<b:dataTable value="#{adviceBean.advices}"
-							 var="advice">
+				<b:dataTable value="#{adviceBean.advices}" var="advice">
 					<b:dataTableColumn style="width:10%" value="#{advice.id}" />
 					<b:dataTableColumn value="#{advice.nome}" />
 					<b:dataTableColumn value="#{advice.descricao}" />
+					<b:dataTableColumn value="#{advice.tipo}" />
 					<b:dataTableColumn style="width:20%">
-						<b:commandButton actionListener="#"  look="warning" update="form-advice form-advice-list" value="Editar" />
-						<b:commandButton actionListener="#"  look="danger" update="form-advice form-advice-list" value="Excluir" />
+						<b:commandButton actionListener="#" look="warning" update="form-advice form-advice-list" value="Editar" />
+						<b:commandButton actionListener="#" look="danger" update="form-advice form-advice-list" value="Excluir" />
 					</b:dataTableColumn>
 				</b:dataTable>
 			</h:form>
